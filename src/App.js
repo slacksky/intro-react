@@ -7,25 +7,54 @@ import { CreateTodoButton } from "./CreateTodoButton";
 //import logo from './logo.svg';
 //import './App.css';
 
-const todos= [
-  {text: 'trabajar en el AzureAngel', completed: false},
+const defaultTodos= [
+  {text: 'trabajar en el AzureAngel', completed: true},
   {text: 'tunear  motor electrico', completed: true},
   {text: 'instalar extensor de rango', completed: false}
 ];
 
 
 function App() {
+  const [todos, setTodos]= React.useState(defaultTodos); 
+  const  [searchValue, setSearchValue] = React.useState('');
+  
+  const completedTodos = todos.filter(todo => !!todo.completed ).length;
+  const totalTodos = todos.length;
+
+  let searchedTodos = [];
+
+  if (!searchValue.length >= 1 ){
+
+    searchedTodos=todos;
+
+  }else{
+
+    searchedTodos = todos.filter(todo => {
+      const todoText = todo.text.toLowerCase();
+      const searchText = searchValue.toLowerCase();
+      return todoText.includes(searchText);
+    });
+
+      
+  }
+
+
   return (
     <React.Fragment>
     
-      <TodoCounter />
-      
+      <TodoCounter 
+        total={totalTodos}
+        completed={completedTodos}
+      />
     
-      <TodoSearch />
+      <TodoSearch 
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
       
     
       <TodoList>
-      {todos.map(todo => (
+      {searchedTodos.map(todo => (
         <TodoItem 
         key={todo.text} 
         text={todo.text}

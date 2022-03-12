@@ -3,9 +3,9 @@ import './TodoSearch.css';
 
 
 
-function TodoSearch() {
+function TodoSearch({searchValue, setSearchValue}) {
 
-    const [searchValue, setSearchValue] = React.useState('');
+    
 
     const onSearchValueChange = (event) => {
         console.log(event.target.value);
@@ -13,15 +13,13 @@ function TodoSearch() {
     };
 
 
-    return([
+    return(
         <input 
             className="TodoSearch"
             placeholer="azureAngel" 
             value={searchValue}
             onChange={onSearchValueChange}
-        />,
-        <p>{searchValue}</p>
-    ]
+        />
     );
 
 }
