@@ -8,8 +8,8 @@ import { CreateTodoButton } from "./CreateTodoButton";
 //import './App.css';
 
 const defaultTodos= [
-  {text: 'trabajar en el AzureAngel', completed: true},
-  {text: 'tunear  motor electrico', completed: true},
+  {text: 'trabajar en el AzureAngel', completed: false},
+  {text: 'tunear  motor electrico', completed: false},
   {text: 'instalar extensor de rango', completed: false}
 ];
 
@@ -34,10 +34,30 @@ function App() {
       const searchText = searchValue.toLowerCase();
       return todoText.includes(searchText);
     });
-
-      
   }
 
+  const   completeTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    
+    const newTodos = [...todos];//injected todo array?
+    newTodos[todoIndex].completed = true; //shorter way
+    setTodos(newTodos);
+
+
+    //todos[todoIndex] = {
+    //  text: todos[todoIndex].text,
+    //  completed: true,
+    //};//alternative way to find completed todos 
+  };
+
+
+  const   deleteTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    
+    const newTodos = [...todos];
+    newTodos.splice(todoIndex, 1); 
+    setTodos(newTodos);
+  };
 
   return (
     <React.Fragment>
@@ -58,7 +78,10 @@ function App() {
         <TodoItem 
         key={todo.text} 
         text={todo.text}
-        completed={todo.completed} />
+        completed={todo.completed} 
+        onComplete={() => completeTodo(todo.text)}
+        onDelete={() => deleteTodo(todo.text)}
+      />
       ))}
       </TodoList>
 
